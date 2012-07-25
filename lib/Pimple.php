@@ -30,7 +30,7 @@
  * @package pimple
  * @author  Fabien Potencier
  */
-class Pimple implements ArrayAccess
+class Pimple implements \ArrayAccess
 {
     private $values;
 
@@ -75,10 +75,10 @@ class Pimple implements ArrayAccess
     public function offsetGet($id)
     {
         if (!array_key_exists($id, $this->values)) {
-            throw new InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
+            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
         }
 
-        return $this->values[$id] instanceof Closure ? $this->values[$id]($this) : $this->values[$id];
+        return $this->values[$id] instanceof \Closure ? $this->values[$id]($this) : $this->values[$id];
     }
 
     /**
@@ -111,7 +111,7 @@ class Pimple implements ArrayAccess
      *
      * @return Closure The wrapped closure
      */
-    public function share(Closure $callable)
+    public function share(\Closure $callable)
     {
         return function ($c) use ($callable) {
             static $object;
@@ -133,7 +133,7 @@ class Pimple implements ArrayAccess
      *
      * @return Closure The protected closure
      */
-    public function protect(Closure $callable)
+    public function protect(\Closure $callable)
     {
         return function ($c) use ($callable) {
             return $callable;
@@ -152,7 +152,7 @@ class Pimple implements ArrayAccess
     public function raw($id)
     {
         if (!array_key_exists($id, $this->values)) {
-            throw new InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
+            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
         }
 
         return $this->values[$id];
@@ -171,16 +171,16 @@ class Pimple implements ArrayAccess
      *
      * @throws InvalidArgumentException if the identifier is not defined
      */
-    public function extend($id, Closure $callable)
+    public function extend($id, \Closure $callable)
     {
         if (!array_key_exists($id, $this->values)) {
-            throw new InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
+            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
         }
 
         $factory = $this->values[$id];
 
-        if (!($factory instanceof Closure)) {
-            throw new InvalidArgumentException(sprintf('Identifier "%s" does not contain an object definition.', $id));
+        if (!($factory instanceof \Closure)) {
+            throw new \InvalidArgumentException(sprintf('Identifier "%s" does not contain an object definition.', $id));
         }
 
         return $this->values[$id] = function ($c) use ($callable, $factory) {
