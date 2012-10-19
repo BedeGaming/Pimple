@@ -1,6 +1,6 @@
 Pimple
 ======
-RT COMMENT
+RT COMMENT-edit
 Pimple is a small Dependency Injection Container for PHP 5.3 that consists
 of just one file and one class (about 80 lines of code).
 
